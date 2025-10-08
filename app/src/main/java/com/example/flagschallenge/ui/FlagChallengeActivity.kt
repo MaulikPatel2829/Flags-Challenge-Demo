@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -27,7 +28,7 @@ class FlagChallengeActivity : ParentActivity() {
 
         binding = ActivityFlagChallengeBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         val vm by lazy {
             ViewModelProvider(
                 this@FlagChallengeActivity,
@@ -92,13 +93,12 @@ class FlagChallengeActivity : ParentActivity() {
             userSelectPos = pos
             userSelectCountryId =
                 binding?.viewmodel?.countryList!![currentQuestion].countries[pos].id
-
             countryNameAdapter.updateAnswer(userSelectPos = pos)
         }
 
         countDownTimerUtility = CountDownTimerUtility(onTicking = { timer ->
             val (minute, sec) = Utility.convertSecondsToMS(timer.toInt())
-            Log.d("countDownTimerUtility", "onTick timer-> $timer -> $minute:$sec")
+            //Log.d("countDownTimerUtility", "onTick timer-> $timer -> $minute:$sec")
             if (!preference.challengeStarted) {
                 binding?.tvTimer?.text = "$minute:$sec"
 
@@ -172,6 +172,7 @@ class FlagChallengeActivity : ParentActivity() {
              )*/
         } else {
 
+            binding?.llStartTimerAlert?.visibility = View.GONE
             binding?.timerDisplay?.visibility = View.GONE
             binding?.clQuestion?.visibility = View.GONE
             binding?.llAnswerView?.visibility = View.VISIBLE
