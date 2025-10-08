@@ -29,7 +29,7 @@ class CountDownTimerUtility(
         }.start()
     }
 
-    private fun cancelCountDownTimer(){
+      fun cancelCountDownTimer(){
         if (::countDownTimer.isInitialized){
             countDownTimer.cancel()
         }

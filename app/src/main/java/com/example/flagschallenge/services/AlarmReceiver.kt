@@ -19,6 +19,18 @@ import com.example.flagschallenge.ui.FlagChallengeActivity
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
+        if (intent?.action == "START_FIRST_QUESTION"){
+            val nextQuestionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX",1)
+            Log.i("AlarmReceiver", "10-second interval finished. Time to load Question $nextQuestionIndex.")
+            val intent = Intent(context, FlagChallengeActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                action = "START_FIRST_QUESTION"
+                putExtra("NEXT_QUESTION_INDEX",nextQuestionIndex)
+            }
+            context?.startActivity(intent)
+//            setNotification(context!!, nextQuestionIndex)
+            setNotification(context!!, 1, intent)
+        }
         if (intent?.action == "START_NEXT_QUESTION"){
             val nextQuestionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX",1)
             Log.i("AlarmReceiver", "10-second interval finished. Time to load Question $nextQuestionIndex.")

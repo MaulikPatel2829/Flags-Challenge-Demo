@@ -15,7 +15,7 @@ import java.io.InputStreamReader
 class FlagChallengeViewModel(val context: Context) : ViewModel() {
 
     var countryList = arrayListOf<CountryList.Question>()
-    var countDownTimerUtility: CountDownTimerUtility? = null
+  //  var countDownTimerUtility: CountDownTimerUtility? = null
 
     var mTimer = MutableLiveData<String>()
 
@@ -25,7 +25,7 @@ class FlagChallengeViewModel(val context: Context) : ViewModel() {
     init {
         countryList = loadData() as ArrayList<CountryList.Question>
 
-        countDownTimerUtility = CountDownTimerUtility(
+       /* countDownTimerUtility = CountDownTimerUtility(
             onTicking = { timer ->
                 val (minute, sec) = Utility.convertSecondsToMS(timer.toInt())
 //                binding?.tvTimer?.text = "$minute:$sec"
@@ -38,7 +38,7 @@ class FlagChallengeViewModel(val context: Context) : ViewModel() {
                 mTimer.value = "Finished"
                 Log.d("CntDwnTmerUtlty", "onFinish")
             }
-        )
+        )*/
 //        countDownTimerUtility?.startCountDownTimer(20L,1L)
     }
 

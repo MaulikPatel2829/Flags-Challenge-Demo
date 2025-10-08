@@ -241,7 +241,7 @@ class SetTimerActivity : ParentActivity() {
     private fun setAlarm(calendar: Calendar) {
         val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlarmReceiver::class.java)
-        intent.action = "START_NEXT_QUESTION"
+        intent.action = "START_FIRST_QUESTION"
         intent.putExtra("NEXT_QUESTION_INDEX", 1)
         val pendingIntent = PendingIntent.getBroadcast(
             this, 0,

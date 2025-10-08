@@ -2,7 +2,6 @@ package com.example.flagschallenge.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -11,12 +10,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.flagschallenge.ParentActivity
 import com.example.flagschallenge.R
 import com.example.flagschallenge.databinding.ActivityFlagChallengeBinding
-import com.example.flagschallenge.model.CountryList
 import com.example.flagschallenge.ui.adapter.CountryNameAdapter
 import com.example.flagschallenge.utility.ImageUtility
 import com.example.flagschallenge.utility.Utility
 import com.example.flagschallenge.ui.viewmodels.FlagChallengeViewModel
 import com.example.flagschallenge.ui.viewmodels.FlagChallengeViewModelFactory
+import com.example.flagschallenge.utility.CountDownTimerUtility
 import kotlin.getValue
 
 class FlagChallengeActivity : ParentActivity() {
@@ -38,10 +37,40 @@ class FlagChallengeActivity : ParentActivity() {
         binding?.viewmodel = vm
 
         initialization()
+
+        handleIntent(intent)
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent) {
+        Log.i("loadData", "handleIntent()")
+        if (intent.action == "START_FIRST_QUESTION") {
+            questionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX", 1)
+            Log.i("loadData", "questionIndex=$questionIndex :: ${preference.challengeStarted}")
+            binding?.clQuestion?.visibility = View.GONE
+            binding?.llStartTimerAlert?.visibility = View.VISIBLE
+            if (!preference.challengeStarted && questionIndex == 1) {
+                countDownTimerUtility?.startCountDownTimer(
+                    20L,
+                    1L
+                )
+            }
+            intent.removeExtra("START_FIRST_QUESTION")
+        }
+//        if (intent.action == "START_NEXT_QUESTION") {
+        if (intent.getBooleanExtra("load_question", false)) {
+            val targetIndex = intent.getIntExtra("NEXT_QUESTION_INDEX", 1)
+            countDownTimerUtility?.cancelCountDownTimer()
+            currentQuestion = targetIndex
+            isChallengeActive = true
+            loadNextQuestion()
+            intent.removeExtra("load_question")
+        }
+//        }
 
     }
 
@@ -51,20 +80,11 @@ class FlagChallengeActivity : ParentActivity() {
 //    private lateinit var countDownTimerUtility: CountDownTimerUtility
 
     var questionIndex = 0
+    var countDownTimerUtility: CountDownTimerUtility? = null
     private fun initialization() {
 
         preference.totalQuestion = binding?.viewmodel?.countryList!!.size
 
-        if (intent.action == "START_NEXT_QUESTION") {
-            questionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX", 1)
-            Log.i("loadData", "questionIndex=$questionIndex :: ${preference.challengeStarted}")
-            binding?.clQuestion?.visibility = View.GONE
-            binding?.llStartTimerAlert?.visibility = View.VISIBLE
-            if (!preference.challengeStarted && questionIndex == 1) binding?.viewmodel?.countDownTimerUtility?.startCountDownTimer(
-                20L,
-                1L
-            )
-        }
 
         // load using coroutine but not need so commented
         //lifecycleScope.launch {
@@ -74,7 +94,7 @@ class FlagChallengeActivity : ParentActivity() {
 
         Log.i("loadData", "2 countryList.size -> ${binding?.viewmodel?.countryList!!.size}")
 
-//        countryNameAdapter = CountryNameAdapter(countryList[0].countries)
+
         countryNameAdapter = CountryNameAdapter(arrayListOf())
         binding?.rvCountryList?.run {
             layoutManager = GridLayoutManager(this@FlagChallengeActivity, 2)
@@ -91,14 +111,23 @@ class FlagChallengeActivity : ParentActivity() {
                 binding?.viewmodel?.countryList!![currentQuestion].countries[pos].userSelect =
                     i == userSelectPos
             }*/
-
-
-
             countryNameAdapter.updateAnswer(userSelectPos = pos)
         }
 
-        binding?.viewmodel?.mTimer?.observe(this, { timer ->
-            if (timer.equals("Finished")) {
+        countDownTimerUtility = CountDownTimerUtility(
+            onTicking = { timer ->
+                val (minute, sec) = Utility.convertSecondsToMS(timer.toInt())
+
+                if (!preference.challengeStarted) {
+                    binding?.tvTimer?.text = "$minute:$sec"
+
+                } else {
+                    binding?.timerDisplay?.visibility = View.VISIBLE
+                    binding?.timerDisplay?.text = "$minute:$sec"
+                }
+                Log.d("CntDwnTmerUtlty", "onTick timer-> $timer -> $minute:$sec")
+            },
+            onFinished = { ->
                 if (!preference.challengeStarted) {
                     preference.challengeStarted = true
                     binding?.clQuestion?.visibility = View.VISIBLE
@@ -115,15 +144,7 @@ class FlagChallengeActivity : ParentActivity() {
                             preference.correctAnswer += 1
                         }
 
-                        binding?.viewmodel?.countDownTimerUtility?.startCountDownTimer(10L, 1L)/*if (userSelectCountryId == binding?.viewmodel?.countryList!![currentQuestion].answer_id) {
-                            binding?.viewmodel?.countryList!![currentQuestion].countries[userSelectPos].userSelect =
-                                true
-                            binding?.viewmodel?.countryList!![currentQuestion].countries[userSelectPos].correctAnswer =
-                                true
-                            countryNameAdapter.notifyItemChanged(userSelectPos)
-                        } else {
-                            countryNameAdapter.updateAnswer(binding?.viewmodel?.countryList!![currentQuestion].answer_id)
-                        }*/
+                        countDownTimerUtility?.startCountDownTimer(10L, 1L)
                         true
                     } else {
                         // binding?.viewmodel?.countDownTimerUtility?.startCountDownTimer(30L, 1L)
@@ -131,17 +152,56 @@ class FlagChallengeActivity : ParentActivity() {
                         false
                     }
                 }
-                //preference.challengeStarted != preference.challengeStarted
-            } else {
-                if (!preference.challengeStarted) {
-                    binding?.tvTimer?.text = "$timer"
-
-                } else {
-                    binding?.timerDisplay?.visibility = View.VISIBLE
-                    binding?.timerDisplay?.text = "$timer"
-                }
+                Log.d("CntDwnTmerUtlty", "onFinish")
             }
-        })
+        )
+
+        /* binding?.viewmodel?.mTimer?.observe(this, { timer ->
+             if (timer.equals("Finished")) {
+                 if (!preference.challengeStarted) {
+                     preference.challengeStarted = true
+                     binding?.clQuestion?.visibility = View.VISIBLE
+                     binding?.llStartTimerAlert?.visibility = View.GONE
+                     loadNextQuestion()
+                 } else {
+                     isResultShown = if (!isResultShown) {
+                         countryNameAdapter.updateAnswer(
+                             binding?.viewmodel?.countryList!![currentQuestion].answer_id,
+                             userSelectPos
+                         )
+
+                         if (binding?.viewmodel?.countryList!![currentQuestion].answer_id == userSelectCountryId) {
+                             preference.correctAnswer += 1
+                         }
+
+                         binding?.viewmodel?.countDownTimerUtility?.startCountDownTimer(10L, 1L)
+ //                        if (userSelectCountryId == binding?.viewmodel?.countryList!![currentQuestion].answer_id) {
+ //                            binding?.viewmodel?.countryList!![currentQuestion].countries[userSelectPos].userSelect =
+ //                                true
+ //                            binding?.viewmodel?.countryList!![currentQuestion].countries[userSelectPos].correctAnswer =
+ //                                true
+ //                            countryNameAdapter.notifyItemChanged(userSelectPos)
+ //                        } else {
+ //                            countryNameAdapter.updateAnswer(binding?.viewmodel?.countryList!![currentQuestion].answer_id)
+ //                        }
+                         true
+                     } else {
+                         // binding?.viewmodel?.countDownTimerUtility?.startCountDownTimer(30L, 1L)
+                         loadNextQuestion()
+                         false
+                     }
+                 }
+                 //preference.challengeStarted != preference.challengeStarted
+             } else {
+                 if (!preference.challengeStarted) {
+                     binding?.tvTimer?.text = "$timer"
+
+                 } else {
+                     binding?.timerDisplay?.visibility = View.VISIBLE
+                     binding?.timerDisplay?.text = "$timer"
+                 }
+             }
+         })*/
 
         binding?.tvChallengeBack?.setOnClickListener {
             val intent = Intent(this@FlagChallengeActivity, SetTimerActivity::class.java)
@@ -173,6 +233,7 @@ class FlagChallengeActivity : ParentActivity() {
     private var totalQuestion = -1
     private var currentQuestion = -1
     private var isResultShown = false
+    private var isChallengeActive = false
     private var userSelectPos = -1
     private var userSelectCountryId = -1
     private fun loadNextQuestion() {
@@ -196,7 +257,10 @@ class FlagChallengeActivity : ParentActivity() {
             )
             countryNameAdapter.updateNextList(binding?.viewmodel?.countryList!![currentQuestion].countries)
             binding?.tvQuestionNo?.text = "${currentQuestion + 1}"
-            binding?.viewmodel?.countDownTimerUtility?.startCountDownTimer(30L, 1L)
+            countDownTimerUtility?.startCountDownTimer(30L, 1L)
+            /* FlagsChallengeScheduler.scheduleNextQuestion(
+                 applicationContext, currentQuestion + 1, 40L,
+             )*/
         } else {
 
             binding?.tvChallengeScore?.visibility = View.GONE
@@ -208,6 +272,11 @@ class FlagChallengeActivity : ParentActivity() {
 
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimerUtility?.cancelCountDownTimer()
     }
 
 }
