@@ -93,32 +93,6 @@ class SetTimerActivity : ParentActivity() {
     private var sec1 = ""
     private var sec2 = ""
 
-    private fun createWatcher(currentEt: EditText): TextWatcher {
-        return object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {}
-            override fun onTextChanged(
-                s: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                val currentIndex = editTexts.indexOf(currentEt)
-                if (s?.length == 1 && currentIndex < editTexts.size - 1) {
-                    editTexts[currentIndex + 1].requestFocus()
-                }
-                else if (s?.isEmpty()!! && before == 1 && currentIndex > 0) {
-                    editTexts[currentIndex - 1].requestFocus()
-                }
-            }
-
-        }
-    }
     private fun textChangeEvents() {
 
         /*editTexts = arrayOf(
@@ -306,6 +280,32 @@ class SetTimerActivity : ParentActivity() {
 
     }
 
+    private fun createWatcher(currentEt: EditText): TextWatcher {
+        return object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {}
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                val currentIndex = editTexts.indexOf(currentEt)
+                if (s?.length == 1 && currentIndex < editTexts.size - 1) {
+                    editTexts[currentIndex + 1].requestFocus()
+                }
+                else if (s?.isEmpty()!! && before == 1 && currentIndex > 0) {
+                    editTexts[currentIndex - 1].requestFocus()
+                }
+            }
+
+        }
+    }
     @SuppressLint("ScheduleExactAlarm")
     private fun setAlarm(calendar: Calendar) {
         val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
