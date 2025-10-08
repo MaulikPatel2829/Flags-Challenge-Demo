@@ -15,8 +15,11 @@
     <color name="text_other_color">#000000</color>
     <color name="text_color_white">#FFFFFFFF</color>
     <color name="text_field_color">#000000</color>
+    <color name="text_game_over">#484848</color>
 
     <color name="timer_color">#787878</color>
+    <color name="color666666">#666666</color>
+    <color name="divider_background">#499E9D9D</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

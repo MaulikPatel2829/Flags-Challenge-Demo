@@ -18,7 +18,7 @@
     <string name="lbl_correct">Correct</string>
     <string name="lbl_wrong">wrong</string>
     <string name="lbl_game_over">GAME OVER</string>
-    <string name="lbl_score">Score</string>
+    <string name="lbl_score">Score :</string>
     <string name="lbl_back">Back</string>
 
 </resources>

@@ -41,7 +41,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/top_header_bg"
-            app:layout_constraintVertical_bias="0.2">
+            app:layout_constraintVertical_bias="0.2"
+            app:strokeColor="@color/strokeColor"
+            app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -58,7 +60,7 @@
                     android:paddingStart="@dimen/_12sdp"
                     android:paddingTop="@dimen/_6sdp"
                     android:paddingEnd="@dimen/_12sdp"
-                    android:paddingBottom="@dimen/_6sdp"
+                    android:paddingBottom="@dimen/_7sdp"
                     android:text="00:10"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_14ssp"
@@ -81,6 +83,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@color/divider_background"
+                    app:layout_constraintTop_toBottomOf="@+id/title_flags_challenge"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
                 <LinearLayout
                     android:id="@+id/llStartTimerAlert"
                     android:layout_width="match_parent"
@@ -139,11 +148,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:background="@color/orange"
+                        android:background="@drawable/bg_rounded_black"
+                        android:backgroundTint="@color/orange"
                         android:paddingStart="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_3sdp"
                         android:paddingEnd="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_3sdp"
                         android:text="0"
                         android:textColor="@color/text_color_white"
                         android:textSize="@dimen/_11ssp"
@@ -252,7 +262,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/llAnswerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -268,30 +278,44 @@
                         android:id="@+id/tvChallengeDone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_26sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
                         android:text="@string/lbl_game_over"
-                        android:textColor="@color/text_other_color"
+                        android:textColor="@color/text_game_over"
                         android:textSize="@dimen/_23ssp"
                         android:textStyle="bold"
                         android:layout_gravity="center_horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/title_flags_challenge" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
+
+                    <TextView
+                        android:id="@+id/tvChallengeScoreLBL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_score"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintEnd_toStartOf="@+id/tvChallengeScore"
+                        app:layout_constraintStart_toStartOf="@+id/tvChallengeDone"
+                        app:layout_constraintTop_toTopOf="@id/tvChallengeScore"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvChallengeScore"/>
 
                     <TextView
                         android:id="@+id/tvChallengeScore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_16sdp"
-                        android:text="@string/lbl_score"
-                        android:textColor="@color/text_other_color"
-                        android:textSize="@dimen/_15ssp"
+                        android:text="0/0"
+                        android:textColor="@color/text_game_over"
+                        android:textSize="@dimen/_18ssp"
                         android:textStyle="bold"
                         android:layout_gravity="center_horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/title_flags_challenge" />
+                        app:layout_constraintEnd_toEndOf="@+id/tvChallengeDone"
+                        app:layout_constraintStart_toEndOf="@+id/tvChallengeScoreLBL"
+                        app:layout_constraintTop_toBottomOf="@id/tvChallengeDone" />
 
                     <TextView
                         android:id="@+id/tvChallengeBack"
@@ -299,15 +323,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_16sdp"
                         android:text="@string/lbl_back"
-                        android:textColor="@color/text_other_color"
+                        android:textColor="@color/text_game_over"
                         android:textSize="@dimen/_15ssp"
                         android:textStyle="bold"
                         android:layout_gravity="center_horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/title_flags_challenge" />
+                        app:layout_constraintTop_toBottomOf="@id/tvChallengeScore" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
