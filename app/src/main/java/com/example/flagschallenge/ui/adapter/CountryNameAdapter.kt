@@ -111,7 +111,10 @@ class CountryNameAdapter(val list: MutableList<CountryList.Country>) :
             }
 
             view.tvAnswer.setOnClickListener {
-                onItemClick?.invoke(pos)
+               if (!isAnswerUpdated)
+               {
+                   onItemClick?.invoke(pos)
+               }
             }
 
         }

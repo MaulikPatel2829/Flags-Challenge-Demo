@@ -114,125 +114,146 @@ class SetTimerActivity : ParentActivity() {
             hr1 = afterTextChanged.toString()
         }
         binding.inputHourTwo.addTextChangedListener { afterTextChanged ->
-            if (hr1.isNotEmpty()) {
-                if (hr1.toInt() == 2 && afterTextChanged.toString()
-                        .isNotEmpty() && afterTextChanged.toString().toInt() > 4
-                ) {
-                    binding.inputHourTwo.setText("")
-                    binding.inputHourTwo.requestFocus()
-                } else if (afterTextChanged?.isNotEmpty()!!) {
-                    binding.inputMinuteOne.requestFocus()
+            if (afterTextChanged?.isNotEmpty()!!) {
+                if (hr1.isNotEmpty()) {
+                    if (hr1.toInt() == 2 && afterTextChanged.toString()
+                            .isNotEmpty() && afterTextChanged.toString().toInt() > 4
+                    ) {
+                        binding.inputHourTwo.setText("")
+                        binding.inputHourTwo.requestFocus()
+                    } else if (afterTextChanged?.isNotEmpty()!!) {
+                        binding.inputMinuteOne.requestFocus()
+                    } else {
+                        binding.inputHourOne.requestFocus()
+                    }
                 } else {
-                    binding.inputHourOne.requestFocus()
+                    if (afterTextChanged?.isNotEmpty()!!) {
+                        binding.inputHourTwo.setText("0")
+                        binding.inputMinuteOne.requestFocus()
+                    } else {
+                        binding.inputHourOne.requestFocus()
+                    }
                 }
+                hr1 = binding.inputHourOne.text.toString()
+                hr2 = afterTextChanged.toString()
             } else {
-                if (afterTextChanged?.isNotEmpty()!!) {
-                    binding.inputHourTwo.setText("0")
-                    binding.inputMinuteOne.requestFocus()
-                } else {
-                    binding.inputHourOne.requestFocus()
-                }
-            }
-            hr1 = binding.inputHourOne.text.toString()
-            hr2 = afterTextChanged.toString()
-        }
-        binding.inputMinuteOne.addTextChangedListener { afterTextChanged ->
-            if (hr1.isEmpty() && hr2.isEmpty()) {
-                binding.inputHourOne.setText("0")
-                binding.inputHourTwo.setText("0")
-                if (afterTextChanged?.isNotEmpty()!!) {
-                    binding.inputMinuteTwo.requestFocus()
-                } else {
-                    binding.inputHourTwo.requestFocus()
-                }
-            } else {
-                if (hr1.toInt() == 2 && afterTextChanged.toString()
-                        .isNotEmpty() && afterTextChanged.toString().toInt() > 6
-                ) {
-                    binding.inputMinuteOne.setText("0")
-                } else if (afterTextChanged?.isNotEmpty()!!) {
-                    binding.inputMinuteTwo.requestFocus()
-                } else {
-                    binding.inputHourTwo.requestFocus()
-                }
+                binding.inputHourTwo.requestFocus()
             }
 
-            hr1 = binding.inputHourOne.text.toString()
-            hr2 = binding.inputHourTwo.text.toString()
-            mn1 = afterTextChanged.toString()
+        }
+        binding.inputMinuteOne.addTextChangedListener { afterTextChanged ->
+            if (afterTextChanged?.isNotEmpty()!!) {
+                if (hr1.isEmpty() && hr2.isEmpty()) {
+                    binding.inputHourOne.setText("0")
+                    binding.inputHourTwo.setText("0")
+                    if (afterTextChanged.isNotEmpty()) {
+                        binding.inputMinuteTwo.requestFocus()
+                    } else {
+                        binding.inputHourTwo.requestFocus()
+                    }
+                } else {
+                    if (hr1.toInt() == 2 && afterTextChanged.toString()
+                            .isNotEmpty() && afterTextChanged.toString().toInt() > 6
+                    ) {
+                        binding.inputMinuteOne.setText("0")
+                    } else if (afterTextChanged?.isNotEmpty()!!) {
+                        binding.inputMinuteTwo.requestFocus()
+                    } else {
+                        binding.inputHourTwo.requestFocus()
+                    }
+                }
+                hr1 = binding.inputHourOne.text.toString()
+                hr2 = binding.inputHourTwo.text.toString()
+                mn1 = afterTextChanged.toString()
+            }else {
+                binding.inputMinuteTwo.requestFocus()
+            }
+
         }
         binding.inputMinuteTwo.addTextChangedListener { afterTextChanged ->
 
-            if (mn1.isNotEmpty()) {
-                if (mn1.toInt() == 6 && afterTextChanged.toString()
-                        .isNotEmpty() && afterTextChanged.toString().toInt() > 0
-                ) {
-                    binding.inputMinuteTwo.setText("0")
-                } else if (afterTextChanged?.isNotEmpty()!!) {
+            if (afterTextChanged?.isNotEmpty()!!) {
+                if (mn1.isNotEmpty()) {
+                    if (mn1.toInt() == 6 && afterTextChanged.toString()
+                            .isNotEmpty() && afterTextChanged.toString().toInt() > 0
+                    ) {
+                        binding.inputMinuteTwo.setText("0")
+                    } else if (afterTextChanged?.isNotEmpty()!!) {
+                        binding.inputSecondOne.requestFocus()
+                    } else {
+                        binding.inputMinuteOne.requestFocus()
+                    }
+                } else if (afterTextChanged.isNotEmpty()) {
                     binding.inputSecondOne.requestFocus()
                 } else {
                     binding.inputMinuteOne.requestFocus()
                 }
-            } else if (afterTextChanged?.isNotEmpty()!!) {
-                binding.inputSecondOne.requestFocus()
+                hr1 = binding.inputHourOne.text.toString()
+                hr2 = binding.inputHourTwo.text.toString()
+                mn1 = binding.inputMinuteOne.text.toString()
+                mn2 = afterTextChanged.toString()
             } else {
-                binding.inputMinuteOne.requestFocus()
+                binding.inputSecondOne.requestFocus()
             }
-            hr1 = binding.inputHourOne.text.toString()
-            hr2 = binding.inputHourTwo.text.toString()
-            mn1 = binding.inputMinuteOne.text.toString()
-            mn2 = afterTextChanged.toString()
         }
         binding.inputSecondOne.addTextChangedListener { afterTextChanged ->
-            if (mn1.isEmpty() && mn2.isEmpty()) {
-                binding.inputMinuteOne.setText("0")
-                binding.inputMinuteTwo.setText("0")
-                if (afterTextChanged?.isNotEmpty()!!) {
-                    binding.inputSecondTwo.requestFocus()
+            if (afterTextChanged?.isNotEmpty()!!) {
+                if (mn1.isEmpty() && mn2.isEmpty()) {
+                    binding.inputMinuteOne.setText("0")
+                    binding.inputMinuteTwo.setText("0")
+                    if (afterTextChanged.isNotEmpty()) {
+                        binding.inputSecondTwo.requestFocus()
+                    } else {
+                        binding.inputMinuteTwo.requestFocus()
+                    }
                 } else {
-                    binding.inputMinuteTwo.requestFocus()
+                    if (afterTextChanged?.isNotEmpty()!! && afterTextChanged.toString().toInt() > 6) {
+                        binding.inputSecondOne.setText("0")
+                        binding.inputSecondOne.requestFocus()
+                    } else if (afterTextChanged.isNotEmpty()) {
+                        binding.inputSecondTwo.requestFocus()
+                    } else {
+                        binding.inputMinuteTwo.requestFocus()
+                    }
                 }
+                hr1 = binding.inputHourOne.text.toString()
+                hr2 = binding.inputHourTwo.text.toString()
+                mn1 = binding.inputMinuteOne.text.toString()
+                mn2 = binding.inputMinuteTwo.text.toString()
+                sec1 = afterTextChanged.toString()
             } else {
-                if (afterTextChanged?.isNotEmpty()!! && afterTextChanged.toString().toInt() > 6) {
-                    binding.inputSecondOne.setText("0")
-                    binding.inputSecondOne.requestFocus()
-                } else if (afterTextChanged.isNotEmpty()) {
-                    binding.inputSecondTwo.requestFocus()
-                } else {
-                    binding.inputMinuteTwo.requestFocus()
-                }
+                binding.inputSecondOne.requestFocus()
             }
 
-            hr1 = binding.inputHourOne.text.toString()
-            hr2 = binding.inputHourTwo.text.toString()
-            mn1 = binding.inputMinuteOne.text.toString()
-            mn2 = binding.inputMinuteTwo.text.toString()
-            sec1 = afterTextChanged.toString()
         }
         binding.inputSecondTwo.addTextChangedListener { afterTextChanged ->
-            if (sec1.isNotEmpty()) {
-                if (afterTextChanged?.isNotEmpty()!! && afterTextChanged.toString().toInt() > 6) {
-                    binding.inputSecondTwo.setText("0")
-                    binding.inputSecondTwo.requestFocus()
-                } else if (afterTextChanged.isNotEmpty()) {
-                    binding.inputSecondTwo.requestFocus()
-                } else {
-                    binding.inputSecondOne.requestFocus()
-                }
+            if (afterTextChanged?.isNotEmpty()!!) {
+                if (sec1.isNotEmpty()) {
+                    if (afterTextChanged?.isNotEmpty()!! && afterTextChanged.toString().toInt() > 6) {
+                        binding.inputSecondTwo.setText("0")
+                        binding.inputSecondTwo.requestFocus()
+                    } else if (afterTextChanged.isNotEmpty()) {
+                        binding.inputSecondTwo.requestFocus()
+                    } else {
+                        binding.inputSecondOne.requestFocus()
+                    }
 
-            } else {
-                if (afterTextChanged?.isNotEmpty()!!) {
-                    binding.inputSecondTwo.requestFocus()
                 } else {
-                    binding.inputSecondOne.requestFocus()
+                    if (afterTextChanged?.isNotEmpty()!!) {
+                        binding.inputSecondTwo.requestFocus()
+                    } else {
+                        binding.inputSecondOne.requestFocus()
+                    }
                 }
+                hr1 = binding.inputHourOne.text.toString()
+                hr2 = binding.inputHourTwo.text.toString()
+                mn1 = binding.inputMinuteOne.text.toString()
+                mn2 = binding.inputMinuteTwo.text.toString()
+                sec1 = binding.inputSecondOne.text.toString()
+                sec2 = afterTextChanged.toString()
+            } else {
+                binding.inputSecondTwo.requestFocus()
             }
-            hr1 = binding.inputHourOne.text.toString()
-            hr2 = binding.inputHourTwo.text.toString()
-            mn1 = binding.inputMinuteOne.text.toString()
-            mn2 = binding.inputMinuteTwo.text.toString()
-            sec1 = binding.inputSecondOne.text.toString()
-            sec2 = afterTextChanged.toString()
         }
 
     }
@@ -258,13 +279,13 @@ class SetTimerActivity : ParentActivity() {
          }*/
 
 
-        /*binding.inputSecondTwo.setText("")
+        binding.inputSecondTwo.setText("")
         binding.inputSecondOne.setText("")
         binding.inputMinuteTwo.setText("")
         binding.inputMinuteOne.setText("")
         binding.inputHourTwo.setText("")
         binding.inputHourOne.setText("")
-        binding.inputHourOne.requestFocus()*/
+        binding.inputHourOne.requestFocus()
         Log.d("buttonSave", "Alarm has been setuped, now wait for its action")
     }
 

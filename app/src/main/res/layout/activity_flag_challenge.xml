@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+        android:background="@color/backgroundColor"
         tools:context=".ui.FlagChallengeActivity">
 
         <!-- Top Orange Header Background -->
@@ -53,13 +54,12 @@
 
                 <TextView
                     android:id="@+id/timerDisplay"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/_65sdp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_black"
-                    android:paddingStart="@dimen/_12sdp"
                     android:paddingTop="@dimen/_6sdp"
-                    android:paddingEnd="@dimen/_12sdp"
                     android:paddingBottom="@dimen/_7sdp"
+                    android:gravity="center_horizontal"
                     android:text="00:10"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_14ssp"
@@ -132,7 +132,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clQuestion"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_110sdp"
+                    android:layout_height="@dimen/_120sdp"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_5sdp"
@@ -168,12 +168,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_2sdp"
                         android:text="@string/lbl_guess_the_name"
                         android:textColor="@color/text_other_color"
                         android:textSize="@dimen/_11ssp"
                         app:layout_constraintStart_toEndOf="@+id/tvQuestionNo"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@+id/tvQuestionNo"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvQuestionNo"/>
 
                     <ImageView
                         android:id="@+id/imgCountryFlag"

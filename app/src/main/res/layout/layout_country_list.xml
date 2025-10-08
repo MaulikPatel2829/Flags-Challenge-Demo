@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
-            android:paddingBottom="3dp"
+            android:paddingBottom="@dimen/_2sdp"
             android:background="@drawable/bg_border_rounded_black"
             android:gravity="center"
             android:text="@string/lbl_name"

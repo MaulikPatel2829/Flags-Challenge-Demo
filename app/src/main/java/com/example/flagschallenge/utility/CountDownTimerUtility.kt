@@ -14,7 +14,7 @@ class CountDownTimerUtility(
         //1000 MS = 1 Sec
         val totalTimeInMillis = totalTimeInSec * 1000L
         val intervalInMillis = intervalTimeInSec * 1000L
-        Log.d("CntDwnTmerUtlty", "totalTimeInMillis=$totalTimeInMillis - intervalInMillis=$intervalInMillis")
+       // Log.i("CntDwnTmerUtlty", "totalTimeInMillis=$totalTimeInMillis - intervalInMillis=$intervalInMillis")
         cancelCountDownTimer()
         countDownTimer = object : CountDownTimer(totalTimeInMillis,intervalInMillis){
             override fun onFinish() {

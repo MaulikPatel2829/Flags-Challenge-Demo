@@ -19,29 +19,28 @@ import com.example.flagschallenge.ui.FlagChallengeActivity
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        if (intent?.action == "START_FIRST_QUESTION"){
-            val nextQuestionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX",1)
-            Log.i("AlarmReceiver", "10-second interval finished. Time to load Question $nextQuestionIndex.")
+        if (intent?.action == "START_FIRST_QUESTION") {
+            val nextQuestionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX", 1)
+
             val intent = Intent(context, FlagChallengeActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 action = "START_FIRST_QUESTION"
-                putExtra("NEXT_QUESTION_INDEX",nextQuestionIndex)
+                putExtra("NEXT_QUESTION_INDEX", nextQuestionIndex)
             }
             context?.startActivity(intent)
-//            setNotification(context!!, nextQuestionIndex)
             setNotification(context!!, 1, intent)
         }
-        if (intent?.action == "START_NEXT_QUESTION"){
-            val nextQuestionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX",1)
-            Log.i("AlarmReceiver", "10-second interval finished. Time to load Question $nextQuestionIndex.")
+        if (intent?.action == "START_NEXT_QUESTION") {
+            val nextQuestionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX", 1)
+
             val intent = Intent(context, FlagChallengeActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 action = "START_NEXT_QUESTION"
-                putExtra("load_question",true)
-                putExtra("NEXT_QUESTION_INDEX",nextQuestionIndex)
+                putExtra("load_question", true)
+                putExtra("NEXT_QUESTION_INDEX", nextQuestionIndex)
             }
             context?.startActivity(intent)
-//            setNotification(context!!, nextQuestionIndex)
+
             setNotification(context!!, 1, intent)
         }
     }
@@ -49,32 +48,37 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun setNotification(context: Context, questionIndex: Int, intent: Intent) {
         val channelId = "challenge_channel_id"
 
-
-
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val channel = NotificationChannel(channelId,"Alarm Channel", NotificationManager.IMPORTANCE_DEFAULT)
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "Alarm Channel",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
             notificationManager.createNotificationChannel(channel)
         }
 
-        val pendingIntent = PendingIntent.getActivity(context,System.currentTimeMillis().toInt(),
-            intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(
+            context, System.currentTimeMillis().toInt(),
+            intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
-        val notificationBuilder = NotificationCompat.Builder(context,channelId)
+        val notificationBuilder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("Flag Challenge")
             .setContentText("Interval over! Question $questionIndex is ready.")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
 
-        with(NotificationManagerCompat.from(context)){
+        with(NotificationManagerCompat.from(context)) {
             if (ActivityCompat.checkSelfPermission(
                     context,
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 return
-            } else notify(10,notificationBuilder.build())
+            } else notify(10, notificationBuilder.build())
         }
     }
 }
