@@ -37,10 +37,11 @@ class SetTimerActivity : ParentActivity() {
         setSpannableString()
         initialization()
     }
+
     private lateinit var editTexts: Array<EditText>
     private fun initialization() {
-         binding.buttonSave.setOnClickListener {
-            Log.d("buttonSave", "time -> $hr1$hr2:$mn1$mn2:$sec1$sec2")
+        binding.buttonSave.setOnClickListener {
+
             if (hr1.isEmpty() || hr2.isEmpty() || mn1.isEmpty() || mn2.isEmpty() ||
                 sec1.isEmpty() || sec2.isEmpty()
             ) {
@@ -59,7 +60,7 @@ class SetTimerActivity : ParentActivity() {
                 append(binding.inputSecondOne.text)
                 append(binding.inputSecondTwo.text)
             }
-            Log.d("buttonSave", "time -> $time")
+
             preference.eventTime = time
 
             preference.eventTimeHour =
@@ -85,8 +86,7 @@ class SetTimerActivity : ParentActivity() {
     }
 
 
-
-        private var hr1 = ""
+    private var hr1 = ""
     private var hr2 = ""
     private var mn1 = ""
     private var mn2 = ""
@@ -119,7 +119,7 @@ class SetTimerActivity : ParentActivity() {
             TimePickerDialog(this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
         }*/
         binding.inputHourOne.addTextChangedListener { afterTextChanged ->
-            Log.d("buttonSave", "afterTextChanged -> $afterTextChanged")
+
             if (afterTextChanged?.isNotEmpty()!!) {
                 if (afterTextChanged.toString().toInt() > 2) {
                     binding.inputHourOne.setText("")
@@ -183,7 +183,7 @@ class SetTimerActivity : ParentActivity() {
                 hr1 = binding.inputHourOne.text.toString()
                 hr2 = binding.inputHourTwo.text.toString()
                 mn1 = afterTextChanged.toString()
-            }else {
+            } else {
                 binding.inputHourTwo.requestFocus()
                 binding.inputHourTwo.setSelection(binding.inputHourOne.text.length)
             }
@@ -227,7 +227,9 @@ class SetTimerActivity : ParentActivity() {
                         binding.inputMinuteTwo.requestFocus()
                     }
                 } else {
-                    if (afterTextChanged?.isNotEmpty()!! && afterTextChanged.toString().toInt() > 6) {
+                    if (afterTextChanged?.isNotEmpty()!! && afterTextChanged.toString()
+                            .toInt() > 6
+                    ) {
                         binding.inputSecondOne.setText("0")
                         binding.inputSecondOne.requestFocus()
                     } else if (afterTextChanged.isNotEmpty()) {
@@ -250,7 +252,9 @@ class SetTimerActivity : ParentActivity() {
         binding.inputSecondTwo.addTextChangedListener { afterTextChanged ->
             if (afterTextChanged?.isNotEmpty()!!) {
                 if (sec1.isNotEmpty()) {
-                    if (afterTextChanged?.isNotEmpty()!! && afterTextChanged.toString().toInt() > 6) {
+                    if (afterTextChanged?.isNotEmpty()!! && afterTextChanged.toString()
+                            .toInt() > 6
+                    ) {
                         binding.inputSecondTwo.setText("0")
                         binding.inputSecondTwo.requestFocus()
                     } else if (afterTextChanged.isNotEmpty()) {
@@ -288,7 +292,9 @@ class SetTimerActivity : ParentActivity() {
                 start: Int,
                 count: Int,
                 after: Int
-            ) {}
+            ) {
+            }
+
             override fun onTextChanged(
                 s: CharSequence?,
                 start: Int,
@@ -298,14 +304,14 @@ class SetTimerActivity : ParentActivity() {
                 val currentIndex = editTexts.indexOf(currentEt)
                 if (s?.length == 1 && currentIndex < editTexts.size - 1) {
                     editTexts[currentIndex + 1].requestFocus()
-                }
-                else if (s?.isEmpty()!! && before == 1 && currentIndex > 0) {
+                } else if (s?.isEmpty()!! && before == 1 && currentIndex > 0) {
                     editTexts[currentIndex - 1].requestFocus()
                 }
             }
 
         }
     }
+
     @SuppressLint("ScheduleExactAlarm")
     private fun setAlarm(calendar: Calendar) {
         val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -321,7 +327,8 @@ class SetTimerActivity : ParentActivity() {
             AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
             pendingIntent
         )
-
+        Toast.makeText(this, "Alarm has been setuped, now wait for its action", Toast.LENGTH_SHORT)
+            .show()
         binding.inputSecondTwo.setText("")
         binding.inputSecondOne.setText("")
         binding.inputMinuteTwo.setText("")
@@ -329,7 +336,7 @@ class SetTimerActivity : ParentActivity() {
         binding.inputHourTwo.setText("")
         binding.inputHourOne.setText("")
         binding.inputHourOne.requestFocus()
-        Log.d("buttonSave", "Alarm has been setuped, now wait for its action")
+//        Log.d("buttonSave", "Alarm has been setuped, now wait for its action")
     }
 
     private fun setSpannableString() {
