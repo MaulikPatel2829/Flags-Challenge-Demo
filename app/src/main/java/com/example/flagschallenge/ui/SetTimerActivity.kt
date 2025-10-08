@@ -7,9 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.TextWatcher
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.core.widget.addTextChangedListener
@@ -34,9 +37,9 @@ class SetTimerActivity : ParentActivity() {
         setSpannableString()
         initialization()
     }
-
+    private lateinit var editTexts: Array<EditText>
     private fun initialization() {
-        binding.buttonSave.setOnClickListener {
+         binding.buttonSave.setOnClickListener {
             Log.d("buttonSave", "time -> $hr1$hr2:$mn1$mn2:$sec1$sec2")
             if (hr1.isEmpty() || hr2.isEmpty() || mn1.isEmpty() || mn2.isEmpty() ||
                 sec1.isEmpty() || sec2.isEmpty()
@@ -66,8 +69,6 @@ class SetTimerActivity : ParentActivity() {
             preference.eventTimeSecond =
                 binding.inputSecondOne.text.toString() + "" + binding.inputSecondTwo.text.toString()
 
-            /* val intent = Intent(this, FlagChallengeActivity::class.java)
-             startActivity(intent)*/
 
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.HOUR_OF_DAY, preference.eventTimeHour.toInt())
@@ -83,13 +84,55 @@ class SetTimerActivity : ParentActivity() {
         textChangeEvents()
     }
 
-    private var hr1 = ""
+
+
+        private var hr1 = ""
     private var hr2 = ""
     private var mn1 = ""
     private var mn2 = ""
     private var sec1 = ""
     private var sec2 = ""
+
+    private fun createWatcher(currentEt: EditText): TextWatcher {
+        return object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {}
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                val currentIndex = editTexts.indexOf(currentEt)
+                if (s?.length == 1 && currentIndex < editTexts.size - 1) {
+                    editTexts[currentIndex + 1].requestFocus()
+                }
+                else if (s?.isEmpty()!! && before == 1 && currentIndex > 0) {
+                    editTexts[currentIndex - 1].requestFocus()
+                }
+            }
+
+        }
+    }
     private fun textChangeEvents() {
+
+        /*editTexts = arrayOf(
+            binding.inputHourOne,
+            binding.inputHourTwo,
+            binding.inputMinuteOne,
+            binding.inputMinuteTwo,
+            binding.inputSecondOne,
+            binding.inputSecondTwo
+        )
+        editTexts.forEach { et ->
+            et.addTextChangedListener(createWatcher(et))
+        }*/
+
         /* binding.inputHourOne.setOnClickListener {
             val cal = Calendar.getInstance()
             val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
@@ -137,7 +180,8 @@ class SetTimerActivity : ParentActivity() {
                 hr1 = binding.inputHourOne.text.toString()
                 hr2 = afterTextChanged.toString()
             } else {
-                binding.inputHourTwo.requestFocus()
+                binding.inputHourOne.requestFocus()
+                binding.inputHourOne.setSelection(binding.inputHourOne.text.length)
             }
 
         }
@@ -166,7 +210,8 @@ class SetTimerActivity : ParentActivity() {
                 hr2 = binding.inputHourTwo.text.toString()
                 mn1 = afterTextChanged.toString()
             }else {
-                binding.inputMinuteTwo.requestFocus()
+                binding.inputHourTwo.requestFocus()
+                binding.inputHourTwo.setSelection(binding.inputHourOne.text.length)
             }
 
         }
@@ -193,7 +238,8 @@ class SetTimerActivity : ParentActivity() {
                 mn1 = binding.inputMinuteOne.text.toString()
                 mn2 = afterTextChanged.toString()
             } else {
-                binding.inputSecondOne.requestFocus()
+                binding.inputMinuteOne.requestFocus()
+                binding.inputMinuteOne.setSelection(binding.inputHourOne.text.length)
             }
         }
         binding.inputSecondOne.addTextChangedListener { afterTextChanged ->
@@ -222,7 +268,8 @@ class SetTimerActivity : ParentActivity() {
                 mn2 = binding.inputMinuteTwo.text.toString()
                 sec1 = afterTextChanged.toString()
             } else {
-                binding.inputSecondOne.requestFocus()
+                binding.inputMinuteTwo.requestFocus()
+                binding.inputMinuteTwo.setSelection(binding.inputHourOne.text.length)
             }
 
         }
@@ -252,7 +299,8 @@ class SetTimerActivity : ParentActivity() {
                 sec1 = binding.inputSecondOne.text.toString()
                 sec2 = afterTextChanged.toString()
             } else {
-                binding.inputSecondTwo.requestFocus()
+                binding.inputSecondOne.requestFocus()
+                binding.inputSecondOne.setSelection(binding.inputHourOne.text.length)
             }
         }
 
@@ -268,16 +316,11 @@ class SetTimerActivity : ParentActivity() {
             this, 0,
             intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+
         alarm.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
             pendingIntent
         )
-        /* } else {
-             alarm.setExact(AlarmManager.RTC_WAKEUP , calendar.timeInMillis,
-                 pendingIntent)
-         }*/
-
 
         binding.inputSecondTwo.setText("")
         binding.inputSecondOne.setText("")
