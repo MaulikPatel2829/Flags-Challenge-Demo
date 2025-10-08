@@ -3,7 +3,7 @@
 
     <string name="lbl_flag_challenge">FLAGS CHALLENGE</string>
     <string name="lbl_challenge_schedule">CHALLENGE SCHEDULE</string>
-    <string name="lbl_hour">Hour</string>
+    <string name="lbl_hour">Hour(1-24)</string>
     <string name="lbl_minute">Minute</string>
     <string name="lbl_second">Second</string>
 
