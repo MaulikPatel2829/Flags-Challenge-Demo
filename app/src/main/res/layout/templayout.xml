@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0F0" >
+
+    <!-- Top Orange Header Background (Primary Color) -->
+    <View
+        android:id="@+id/top_header_bg"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:background="#FF6F61"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Main Content Card (using Material styling) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/schedule_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:layout_constraintTop_toBottomOf="@id/top_header_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="32dp">
+
+            <!-- Title: FLAGS CHALLENGE (Using Material Text Style) -->
+            <TextView
+                android:id="@+id/title_flags_challenge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FLAGS CHALLENGE"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:paddingTop="20dp"
+                android:textColor="#FF6F61"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Subtitle: CHALLENGE SCHEDULE (Clean Material Typography) -->
+            <TextView
+                android:id="@+id/subtitle_challenge_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CHALLENGE SCHEDULE"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:layout_marginTop="8dp"
+                android:textColor="#333333"
+                app:layout_constraintTop_toBottomOf="@id/title_flags_challenge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Time Input Section -->
+            <LinearLayout
+                android:id="@+id/time_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="32dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@id/subtitle_challenge_schedule"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- Hour Input Group -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hour"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                    <EditText
+                        android:id="@+id/input_hour"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_input_background"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:gravity="center"
+                        android:hint="00"
+                        android:textColorHint="#AAAAAA"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        tools:text="10" />
+                </LinearLayout>
+
+                <!-- Minute Input Group -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Minute"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                    <EditText
+                        android:id="@+id/input_minute"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_input_background"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:gravity="center"
+                        android:hint="00"
+                        android:textColorHint="#AAAAAA"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        tools:text="30" />
+                </LinearLayout>
+
+                <!-- Second Input Group -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Second"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                    <EditText
+                        android:id="@+id/input_second"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rounded_input_background"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:gravity="center"
+                        android:hint="00"
+                        android:textColorHint="#AAAAAA"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        tools:text="00" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Save Button (Material Button) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SAVE"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#FF6F61"
+                android:paddingStart="48dp"
+                android:paddingEnd="48dp"
+                android:layout_marginTop="32dp"
+                app:cornerRadius="10dp"
+                app:layout_constraintTop_toBottomOf="@id/time_input_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Timer Display (Material Card for elevated look) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/timer_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#333333"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="10dp"
+        app:strokeColor="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@id/schedule_card"
+        app:layout_constraintTop_toTopOf="@id/schedule_card"
+        app:layout_constraintBottom_toTopOf="@id/schedule_card">
+
+        <TextView
+            android:id="@+id/timer_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:10"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

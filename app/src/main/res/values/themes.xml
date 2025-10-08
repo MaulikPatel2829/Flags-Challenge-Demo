@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+<!--    <style name="Theme.FlagsChallenge" parent="android:Theme.Material.Light.NoActionBar" />-->
+
+    <style name="Theme.FlagsChallenge" parent="Theme.MaterialComponents.DayNight.NoActionBar" >
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+        <item name="android:forceDarkAllowed" tools:ignore="NewApi">false</item>
+    </style>
+</resources>
