@@ -19,7 +19,7 @@ import java.util.Calendar
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.d("buttonSave", "setAlarm - time -> ${intent?.action}")
+        Log.d("buttonSave", "AlarmReceiver onReceive - action -> ${intent?.action}")
         if (intent?.action == "START_FIRST_QUESTION") {
 
             val nextQuestionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX", 1)

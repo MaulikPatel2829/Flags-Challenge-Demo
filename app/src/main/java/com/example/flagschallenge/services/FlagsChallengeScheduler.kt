@@ -5,6 +5,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.icu.util.Calendar
 import android.util.Log
 
 object FlagsChallengeScheduler {
@@ -29,19 +30,21 @@ object FlagsChallengeScheduler {
             context, NEXT_QUESTION_REQUEST_CODE,
             intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-
+        val calendar = Calendar.getInstance()
+        val currentSecond = calendar.get(Calendar.SECOND)
+        calendar.set(Calendar.SECOND,currentSecond + 1 + totalTimeInSec.toInt())
         alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP, totalTimeInMillis,
+            AlarmManager.RTC_WAKEUP, calendar.timeInMillis, //totalTimeInMillis,
             pendingIntent
         )
 
     }
 
-    fun cancelScheduleEvent(context: Context, questionIndex: Int) {
+    fun cancelScheduleEvent(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java).apply {
             action = START_NEXT_QUESTION
-            putExtra("NEXT_QUESTION_INDEX", questionIndex)
+            //putExtra("NEXT_QUESTION_INDEX", questionIndex)
         }
         val pendingIntent = PendingIntent.getBroadcast(
             context,
