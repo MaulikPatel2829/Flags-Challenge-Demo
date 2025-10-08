@@ -2,6 +2,7 @@ package com.example.flagschallenge.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.ViewModelProvider
@@ -97,7 +98,7 @@ class FlagChallengeActivity : ParentActivity() {
 
         countDownTimerUtility = CountDownTimerUtility(onTicking = { timer ->
             val (minute, sec) = Utility.convertSecondsToMS(timer.toInt())
-
+            Log.d("countDownTimerUtility", "onTick timer-> $timer -> $minute:$sec")
             if (!preference.challengeStarted) {
                 binding?.tvTimer?.text = "$minute:$sec"
 

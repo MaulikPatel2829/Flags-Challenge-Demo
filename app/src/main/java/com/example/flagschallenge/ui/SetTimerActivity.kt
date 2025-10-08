@@ -41,7 +41,7 @@ class SetTimerActivity : ParentActivity() {
     private lateinit var editTexts: Array<EditText>
     private fun initialization() {
         binding.buttonSave.setOnClickListener {
-
+            Log.d("buttonSave", "time -> $hr1$hr2:$mn1$mn2:$sec1$sec2")
             if (hr1.isEmpty() || hr2.isEmpty() || mn1.isEmpty() || mn2.isEmpty() ||
                 sec1.isEmpty() || sec2.isEmpty()
             ) {
@@ -60,7 +60,7 @@ class SetTimerActivity : ParentActivity() {
                 append(binding.inputSecondOne.text)
                 append(binding.inputSecondTwo.text)
             }
-
+            Log.d("buttonSave", "time -> $time")
             preference.eventTime = time
 
             preference.eventTimeHour =
@@ -70,7 +70,8 @@ class SetTimerActivity : ParentActivity() {
             preference.eventTimeSecond =
                 binding.inputSecondOne.text.toString() + "" + binding.inputSecondTwo.text.toString()
 
-
+            Log.d("buttonSave", "time -> ${preference.eventTimeHour.toInt()}:" +
+                    "${preference.eventTimeMinute.toInt()}:${preference.eventTimeSecond.toInt()}")
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.HOUR_OF_DAY, preference.eventTimeHour.toInt())
             calendar.set(Calendar.MINUTE, preference.eventTimeMinute.toInt())
@@ -314,6 +315,8 @@ class SetTimerActivity : ParentActivity() {
 
     @SuppressLint("ScheduleExactAlarm")
     private fun setAlarm(calendar: Calendar) {
+        Log.d("buttonSave", "setAlarm - time -> ${calendar.timeInMillis} - ${calendar.get(Calendar.HOUR_OF_DAY)}" +
+                " - ${calendar.get(Calendar.MINUTE)} - ${calendar.get(Calendar.SECOND)}")
         val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlarmReceiver::class.java)
         intent.action = "START_FIRST_QUESTION"

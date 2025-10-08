@@ -15,11 +15,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.flagschallenge.R
 import com.example.flagschallenge.ui.FlagChallengeActivity
+import java.util.Calendar
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-
+        Log.d("buttonSave", "setAlarm - time -> ${intent?.action}")
         if (intent?.action == "START_FIRST_QUESTION") {
+
             val nextQuestionIndex = intent.getIntExtra("NEXT_QUESTION_INDEX", 1)
 
             val intent = Intent(context, FlagChallengeActivity::class.java).apply {
