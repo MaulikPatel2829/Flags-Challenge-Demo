@@ -11,7 +11,7 @@
     <string name="btn_save">Save</string>
 
     <!--  Flag challenge page  -->
-    <string name="lbl_will_start_in">WILL START IN</string>
+    <string name="lbl_will_start_in">CHALLENGE WILL START IN</string>
     <string name="lbl_question">Question</string>
     <string name="lbl_guess_the_name">Guess the country from the flag?</string>
     <string name="lbl_name">name</string>
