@@ -53,6 +53,7 @@ class SharedPreference @Inject constructor (@param:ApplicationContext private va
     const val challengeStarted = "challengeStarted"
     const val correctAnswer = "correctAnswer"
     const val totalQuestion = "totalQuestion"
+    const val currentQuestionNo = "currentQuestionNo"
 
 
 
@@ -111,6 +112,15 @@ class SharedPreference @Inject constructor (@param:ApplicationContext private va
         set(value) {
             field = value
             save(PrefKeys.totalQuestion, value)
+        }
+
+    var currentQuestionNo: Int = -1
+        get() {
+            return getValueInt(PrefKeys.currentQuestionNo)!!
+        }
+        set(value) {
+            field = value
+            save(PrefKeys.currentQuestionNo, value)
         }
 
     var challengeStarted: Boolean = false

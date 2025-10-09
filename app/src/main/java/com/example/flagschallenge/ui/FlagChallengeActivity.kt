@@ -66,7 +66,7 @@ class FlagChallengeActivity : ParentActivity() {
             val targetIndex = intent.getIntExtra("NEXT_QUESTION_INDEX", 1)
             countDownTimerUtility?.cancelCountDownTimer()
             currentQuestion = targetIndex
-            isChallengeActive = true
+            isChallengeActive = intent.getBooleanExtra("is_restarted",false)
             loadNextQuestion()
             intent.removeExtra("load_question")
         }
@@ -151,10 +151,21 @@ class FlagChallengeActivity : ParentActivity() {
     private var userSelectCountryId = -1
     private fun loadNextQuestion() {
 
-        currentQuestion++
+        if (!isChallengeActive)
+        {
+            isChallengeActive = false
+            currentQuestion++
+        }
         if (currentQuestion < totalQuestion) {
+
+            binding?.timerDisplay?.visibility = View.VISIBLE
+            binding?.clQuestion?.visibility = View.VISIBLE
+            binding?.llAnswerView?.visibility = View.GONE
+            binding?.llStartTimerAlert?.visibility = View.GONE
+
             userSelectPos = -1
             userSelectCountryId = -1
+            preference.currentQuestionNo = currentQuestion
 
             ImageUtility.loadImagineGlide(
                 Utility.getCountryFlagByCode(binding?.viewmodel?.countryList!![currentQuestion].country_code),
@@ -176,7 +187,10 @@ class FlagChallengeActivity : ParentActivity() {
             binding?.timerDisplay?.visibility = View.GONE
             binding?.clQuestion?.visibility = View.GONE
             binding?.llAnswerView?.visibility = View.VISIBLE
+
             preference.challengeStarted = false
+            preference.currentQuestionNo = -1
+
             binding?.tvChallengeScore?.text =
                 "${preference.correctAnswer}/${preference.totalQuestion}"
 

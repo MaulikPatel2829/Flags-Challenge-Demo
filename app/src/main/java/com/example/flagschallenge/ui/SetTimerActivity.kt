@@ -40,6 +40,17 @@ class SetTimerActivity : ParentActivity() {
 
     private lateinit var editTexts: Array<EditText>
     private fun initialization() {
+        if (preference.challengeStarted){
+            val intent = Intent(this, FlagChallengeActivity::class.java)
+            intent.action = "START_NEXT_QUESTION"
+            if (preference.currentQuestionNo != -1)
+            {
+                intent.putExtra("NEXT_QUESTION_INDEX", preference.currentQuestionNo)
+            }
+            intent.putExtra("load_question", true)
+            intent.putExtra("is_restarted", true)
+            startActivity(intent)
+        }
         binding.buttonSave.setOnClickListener {
             Log.d("buttonSave", "time -> $hr1$hr2:$mn1$mn2:$sec1$sec2")
             if (hr1.isEmpty() || hr2.isEmpty() || mn1.isEmpty() || mn2.isEmpty() ||
