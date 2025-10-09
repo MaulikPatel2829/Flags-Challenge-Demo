@@ -153,9 +153,9 @@ class FlagChallengeActivity : ParentActivity() {
 
         if (!isChallengeActive)
         {
-            isChallengeActive = false
             currentQuestion++
         }
+        isChallengeActive = false
         if (currentQuestion < totalQuestion) {
 
             binding?.timerDisplay?.visibility = View.VISIBLE
