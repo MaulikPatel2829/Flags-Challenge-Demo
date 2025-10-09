@@ -49,6 +49,7 @@ class SetTimerActivity : ParentActivity() {
                 intent.putExtra("NEXT_QUESTION_INDEX", preference.currentQuestionNo)
             }
             intent.putExtra("load_question", true)
+            intent.putExtra("is_restarted", true)
             startActivity(intent)
         }
 

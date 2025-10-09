@@ -69,7 +69,7 @@ class FlagChallengeActivity : ParentActivity() {
             val targetIndex = intent.getIntExtra("NEXT_QUESTION_INDEX", 1)
             countDownTimerUtility?.cancelCountDownTimer()
             currentQuestion = targetIndex
-            isChallengeActive = true
+            isChallengeActive = intent.getBooleanExtra("is_restarted",false)
             loadNextQuestion()
             intent.removeExtra("load_question")
         }
@@ -155,7 +155,11 @@ class FlagChallengeActivity : ParentActivity() {
     private var userSelectCountryId = -1
     private fun loadNextQuestion() {
         FlagsChallengeScheduler.cancelScheduleEvent(this)
-        currentQuestion++
+        if (!isChallengeActive)
+        {
+            currentQuestion++
+        }
+        isChallengeActive = false
         if (currentQuestion < totalQuestion) {
 
             binding?.timerDisplay?.visibility = View.VISIBLE
